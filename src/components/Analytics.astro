@@ -1,0 +1,19 @@
+---
+// Analytics component for Vercel Analytics and Speed Insights
+---
+
+<script>
+  if (typeof window !== 'undefined' && import.meta.env.PROD) {
+    import('@vercel/analytics').then(({ inject }) => {
+      inject();
+    });
+  }
+</script>
+
+<script>
+  if (typeof window !== 'undefined' && import.meta.env.PROD) {
+    import('@vercel/speed-insights').then(({ injectSpeedInsights }) => {
+      injectSpeedInsights();
+    });
+  }
+</script>

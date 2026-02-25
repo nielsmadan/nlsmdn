@@ -1,0 +1,9 @@
+pre-commit:
+  parallel: true
+  commands:
+    biome-check:
+      glob: "*.{js,ts,tsx,json}"
+      run: bunx biome check --write --files-ignore-unknown=true {staged_files}
+      stage_fixed: true
+    astro-check:
+      run: bun run astro check

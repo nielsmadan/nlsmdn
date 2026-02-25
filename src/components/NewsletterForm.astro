@@ -1,0 +1,31 @@
+---
+export interface Props {
+  variant?: "default" | "compact";
+}
+
+const { variant = "default" } = Astro.props;
+---
+
+<div class={variant === 'default' ? 'newsletter-box' : 'newsletter-compact mt-6'}>
+  {variant === 'default' && (
+    <p>
+      Subscribe to get new posts straight to your inbox.
+    </p>
+  )}
+
+  <form
+    action="https://buttondown.com/api/emails/embed-subscribe/YOUR_BUTTONDOWN_USERNAME"
+    method="post"
+    target="_blank"
+  >
+    <input
+      type="email"
+      name="email"
+      placeholder="Your email"
+      required
+    />
+    <button type="submit">
+      Subscribe
+    </button>
+  </form>
+</div>
