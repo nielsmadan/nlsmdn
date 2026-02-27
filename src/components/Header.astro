@@ -1,6 +1,7 @@
 ---
 import IconX from "@/assets/icons/IconX.svg";
 import IconArchive from "@/assets/icons/IconArchive.svg";
+import IconRss from "@/assets/icons/IconRss.svg";
 import IconTheme from "@/assets/icons/IconTheme.svg";
 import IconMenuDeep from "@/assets/icons/IconMenuDeep.svg";
 import LinkButton from "./LinkButton.astro";
@@ -104,7 +105,18 @@ const isActive = (path: string) => {
             </li>
           )
         }
-        <li class="col-span-1 flex items-center justify-center">
+        <li class="col-span-1 flex items-center justify-center sm:-mx-1">
+          <LinkButton
+            href="/rss.xml"
+            target="_blank"
+            class="focus-outline flex p-3 sm:p-1 opacity-80 hover:opacity-100"
+            title="RSS Feed"
+            aria-label="RSS Feed"
+          >
+            <IconRss class="size-5 sm:size-4" />
+          </LinkButton>
+        </li>
+        <li class="col-span-1 flex items-center justify-center sm:-mx-1">
           <LinkButton
             href="/search"
             class:list={[
@@ -120,10 +132,10 @@ const isActive = (path: string) => {
         </li>
         {
           SITE.lightAndDarkMode && (
-            <li class="col-span-1 flex items-center justify-center">
+            <li class="col-span-1 flex items-center justify-center sm:-mx-1">
               <button
                 id="theme-btn"
-                class="focus-outline flex items-center justify-center size-12 sm:size-8 hover:[&>svg]:stroke-accent"
+                class="focus-outline flex items-center justify-center size-12 sm:size-8 hover:[&>svg]:stroke-accent [&>svg]:size-[1.15rem]"
                 title="Toggles light & dark"
                 aria-label="auto"
                 aria-live="polite"
