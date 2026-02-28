@@ -18,21 +18,21 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  try {
-    await resend.contacts.create({
-      audienceId: AUDIENCE_ID,
-      email,
-    });
+  const { error } = await resend.contacts.create({
+    audienceId: AUDIENCE_ID,
+    email,
+  });
 
-    return new Response(JSON.stringify({ message: "Subscribed!" }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-  } catch (err) {
-    console.error("Resend subscribe error:", err);
+  if (error) {
+    console.error("Resend subscribe error:", error);
     return new Response(
       JSON.stringify({ error: "Something went wrong. Please try again." }),
       { status: 500, headers: { "Content-Type": "application/json" } },
     );
   }
+
+  return new Response(JSON.stringify({ message: "Subscribed!" }), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
 };
