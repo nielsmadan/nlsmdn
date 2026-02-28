@@ -1,104 +1,136 @@
 # Pre-Release Review — nlsmdn.com
 
-**Date:** 2026-02-15
-**Reviewers:** 6 Claude agents + Gemini + Codex
+**Date:** 2026-02-27
+**Reviewers:** 6 Claude agents + Gemini + Codex (two rounds)
 
 ---
 
 ## Critical Issues (Must Fix)
 
-### 1. `SITE.desc` is a TODO placeholder
+### 1. Resend API return value not checked
 
-**Confidence:** 99 (all reviewers flagged)
+**File:** `src/pages/api/subscribe.ts:22`
 
-- `src/config.ts:5` — `desc: "TODO - add your site description"`
-- Ships in meta description, OG tags, RSS feed, and the dynamic OG image
-- Biggest SEO and presentation issue
+The Resend SDK returns `{ data, error }` — when `error` is set, the call doesn't throw but the operation failed. The current code only catches thrown exceptions. A failed create (validation error, rate limit, duplicate) returns 200 "Subscribed!" to the user.
 
-### 2. Structured data emits `"datePublished": "undefined"` on non-post pages
+**Fix:** `const { error } = await resend.contacts.create(...)` and handle accordingly. Also return a friendly "You're already subscribed!" for duplicates instead of a generic error.
 
-**Confidence:** 95 (5/8 reviewers)
+### 2. Share link URLs not URI-encoded
 
-- `src/layouts/Layout.astro:40` — `datePublished: \`${pubDatetime?.toISOString()}\``
-- Every non-post page (home, about, search, tags) gets invalid JSON-LD
-- Google Search Console will flag this
-- **Fix:** `...(pubDatetime && { datePublished: pubDatetime.toISOString() })` or only emit `BlogPosting` structured data on actual post pages
+**File:** `src/components/ShareLinks.astro:13`
+
+`href={social.href + URL}` concatenates the page URL into query parameters without `encodeURIComponent()`. If a URL contains `&`, `#`, or `?`, share links for Reddit, Bluesky, and HN break.
+
+**Fix:** Use `encodeURIComponent(URL)` when building the href.
+
+### 3. Future/scheduled posts are accessible
+
+**Files:** `src/pages/posts/[...slug]/index.astro:12`, `src/pages/archives/index.astro:16`
+
+Both `getStaticPaths` and the archives page filter only `!data.draft`, not future-dated posts. Static pages are generated for scheduled posts, making them accessible by direct URL before their publish date.
+
+**Fix:** Add the `isPublishTimePassed` check or use `getSortedPosts()` which already filters these.
+
+### 4. Structured data issues on non-post pages
+
+**File:** `src/layouts/Layout.astro:35-49`
+
+Every page (404, search, about, home) gets `BlogPosting` structured data. Non-post pages should use `WebSite` or `WebPage` schema. Google Search Console will flag incorrect structured data.
+
+**Fix:** Only emit `BlogPosting` when `pubDatetime` is provided; use `WebSite` otherwise.
+
+### 5. RSS `pubDate` uses modification date
+
+**File:** `src/pages/rss.xml.ts:18`
+
+`pubDate: new Date(data.modDatetime ?? data.pubDatetime)` — editing a typo in an old post changes its RSS publication date. RSS readers will re-surface old posts as new.
+
+**Fix:** Always use `data.pubDatetime` for RSS `pubDate`.
 
 ---
 
 ## Improvements (Should Fix)
 
-### 3. Default Astro favicon
+### 6. ~~Tag links produce 404s~~ FIXED
 
-**Confidence:** 95 (2/8 reviewers)
+~~`src/components/Tag.astro:13` linked to `/tags/${tag}/` but tag pages were deleted.~~
 
-- `public/favicon.svg` is the stock Astro rocket icon — replace with your own
-
-### 4. Missing HSTS header
-
-**Confidence:** 95 (3/8 reviewers)
-
-- `vercel.json` — add `Strict-Transport-Security: max-age=63072000; includeSubDomains; preload`
-
-### 5. Missing `og:type` meta tag
-
-**Confidence:** 95 (3/8 reviewers)
-
-- `src/layouts/Layout.astro` — OG protocol requires `og:type` (`"website"` or `"article"`)
-
-### 6. Empty `theme-color` meta tag
-
-**Confidence:** 92 (3/8 reviewers)
-
-- `src/layouts/Layout.astro:125` — `<meta name="theme-color" content="" />` — set actual color values
+**Status:** Fixed — tags now link to `/search?q=${tag}`, which searches for the tag via Pagefind.
 
 ### 7. Off-by-one in next post navigation
 
-**Confidence:** 95 (1/8 reviewers, but a real bug)
+**File:** `src/layouts/PostDetails.astro:79-80`
 
-- `src/layouts/PostDetails.astro:81` — should check `currentPostIndex !== allPosts.length - 1`
-- Currently masked because `undefined` is falsy, but it's a latent bug
+`currentPostIndex !== allPosts.length` is always true for valid indices. Should be `allPosts.length - 1`. Currently masked because `undefined` is falsy, but if `findIndex` returns `-1`, `allPosts[0]` would incorrectly be used as next post.
+
+### 8. Missing `og:type` meta tag
+
+**File:** `src/layouts/Layout.astro:82-86`
+
+OG tags include title/description/url/image but not `og:type`. Should be `"article"` for blog posts, `"website"` for other pages.
+
+### 9. Empty `theme-color` meta tag
+
+**File:** `src/layouts/Layout.astro:129`
+
+`<meta name="theme-color" content="" />` — set actual color values (e.g., accent color for light, background color for dark).
+
+### 10. Missing HSTS header
+
+**File:** `vercel.json`
+
+Add `Strict-Transport-Security: max-age=63072000; includeSubDomains; preload`.
+
+### 11. Dev warning says `pnpm` instead of `bun`
+
+**File:** `src/pages/search.astro:41`
+
+The dev-mode warning tells developers to run `pnpm run build` but this project uses bun.
+
+### 12. Significant dead code from deleted features
+
+**Components:** `Pagination.astro`, `EditPost.astro`, `BackButton.astro`, `StructuredData.astro`
+**Utilities:** `getPostsByTag.ts`, `getUniqueTags.ts`, `getPostsByGroupCondition.ts`
+**Icons:** `IconWhatsapp`, `IconPinterest`, `IconTelegram`, `IconFacebook`, `IconMoon`, `IconSunHigh`, `IconHash`, `IconSearch`
+**Pages:** `src/pages/archives/` (permanently disabled via `showArchives: false`)
+**Config:** `postPerIndex`, `postPerPage`, `showArchives`, `showBackButton`, `editPost` — all unused
+**Other:** `backUrl` logic in `Main.astro` and `search.astro`, stale breadcrumb logic for `/tags/` and `/posts/` pagination, `hideEditPost` and `featured` fields in content schema, `eslint-disable-next-line` comment in `astro.config.ts`
 
 ---
 
 ## Suggestions (Nice to Have)
 
-### 8. Missing CSP header
+### 13. No rate limiting on subscribe endpoint
 
-**Confidence:** 90 (4/8 reviewers)
+All external advisors flagged this. Consider Vercel Edge Middleware with Upstash, or a simple honeypot field for bot protection.
 
-- Not strictly required for launch, but a good defense-in-depth measure
-- Will require `'unsafe-inline'` for the theme script and Vercel analytics
+### 14. Missing CSP header
 
-### 9. Missing `Permissions-Policy` header
+Not strictly required for launch, but a good defense-in-depth measure. Will require `'unsafe-inline'` for theme script and Vercel analytics.
 
-**Confidence:** 85 (3/8 reviewers)
+### 15. Missing `Permissions-Policy` header
 
-- `camera=(), microphone=(), geolocation=()` — easy win
+`camera=(), microphone=(), geolocation=()` — easy win.
 
-### 10. Deprecated `X-XSS-Protection` header
+### 16. Theme toggle `aria-label` accessibility
 
-**Confidence:** 85 (2/8 reviewers)
+**File:** `src/components/Header.astro:131`, `src/scripts/theme.ts:35`
 
-- Modern browsers ignore it; set to `0` or remove
+Label is `"auto"`/`"light"`/`"dark"` instead of describing the action (e.g., "Switch to dark mode").
 
-### 11. Missing `og:site_name` meta tag
+### 17. `X-XSS-Protection` header is deprecated
 
-**Confidence:** 90 (1/8 reviewers)
+**File:** `vercel.json`
 
-- Recommended for better social sharing appearance
+Modern browsers ignore it; `1; mode=block` can actually introduce vulnerabilities in older IE. Set to `0` or remove.
 
-### 12. Unused `NewsletterForm.astro` has placeholder username
+### 18. Missing `og:site_name` meta tag
 
-**Confidence:** 95 (2/8 reviewers)
+Recommended for better social sharing appearance.
 
-- Not imported anywhere, so not rendered — but should be configured or deleted
+### 19. Twitter meta tags use `property` instead of `name`
 
-### 13. Twitter meta tags use `property` instead of `name`
-
-**Confidence:** 88 (1/8 reviewers)
-
-- Works in practice but technically incorrect per Twitter Card spec
+Works in practice but technically incorrect per Twitter Card spec.
 
 ---
 
@@ -106,34 +138,38 @@
 
 ### Gemini
 
-Flagged the same top issues: `SITE.desc` placeholder, empty `ogImage`, and missing CSP/HSTS headers. Noted the about page and social links look properly personalized. No unique findings beyond what Claude agents found.
+Flagged broken tag links, nextPost index bug, newsletter security (rate limiting + hardcoded audience ID), share link encoding, dead code, and lack of pagination. Suggested redirecting tag links to search with tag as query parameter (adopted).
 
 ### Codex
 
-Flagged all major issues and additionally called out the `BlogPosting` JSON-LD being used on all page types (should be `WebSite`/`Person` on non-post pages). Also flagged the newsletter form placeholder and empty `theme-color`. Agreed on missing security headers.
+Flagged subscribe API validation/rate-limiting gaps, DOM double-injection of heading links on client navigation, broken tag links, share link encoding, potential `tags.map` crash if tags undefined, OG image fallback. Suggested replacing DOM mutation with rehype/remark plugins at build time.
 
 ### Cross-Model Agreement
 
-All 3 models (Claude, Gemini, Codex) converge on these high-confidence issues:
-
-1. **`SITE.desc` TODO placeholder** — unanimous, must fix
-2. **Invalid structured data on non-post pages** — Claude + Codex flagged explicitly
-3. **Missing security headers (HSTS, CSP)** — all three models
+All 3 models (Claude, Gemini, Codex) converge on:
+1. **Tag links broken** — unanimous (now fixed)
+2. **Share URLs need encoding** — unanimous
+3. **Subscribe API needs validation** — unanimous
+4. **Dead code cleanup needed** — unanimous
+5. **NextPost boundary check wrong** — Gemini + Claude
 
 ---
 
 ## What Looks Good
 
 - Build pipeline (astro check + build + pagefind) is correct
-- Vercel config is properly set up with bun
+- Vercel config properly set up with bun
 - Content collection schema is well-defined
 - Analytics loads only in production
 - Search, RSS, sitemap, canonical URLs all work
 - About page has real personalized content
 - Pre-commit hooks (Biome + astro check) are solid
 - Social links point to real profiles
-- Dark mode and FOUC prevention are properly implemented
+- Dark mode and FOUC prevention properly implemented
+- Newsletter subscription with Resend works end-to-end
+- Dependabot configured for automated dependency updates
+- `RESEND_API_KEY` correctly declared as server-only secret
 
 ---
 
-**Bottom line:** Fix items 1 and 2, replace the favicon, and you're good to deploy. The security headers (HSTS at minimum) are worth adding but aren't blockers.
+**Bottom line:** Fix items 1-5 (Resend error handling, share URL encoding, future post filtering, structured data, RSS pubDate), then clean up dead code. Security headers (HSTS at minimum) are worth adding but aren't blockers.

@@ -10,7 +10,7 @@ const { tag, tagName, size = "lg" } = Astro.props;
 
 <li>
   <a
-    href={`/tags/${tag}/`}
+    href={`/search?q=${tag}`}
     transition:name={tag}
     class:list={[
       "inline-flex items-baseline",
