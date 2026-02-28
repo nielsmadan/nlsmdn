@@ -7,6 +7,7 @@ import Tag from "@/components/Tag.astro";
 import Datetime from "@/components/Datetime.astro";
 import ShareLinks from "@/components/ShareLinks.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
+import NewsletterForm from "@/components/NewsletterForm";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
@@ -141,6 +142,11 @@ const nextPost =
           </a>
         )
       }
+    </div>
+
+    <div class="mt-8" data-pagefind-ignore>
+      <hr class="mb-6 border-dashed" />
+      <NewsletterForm client:idle />
     </div>
   </main>
   <Footer />

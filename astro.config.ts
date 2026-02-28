@@ -11,11 +11,13 @@ import {
   transformerNotationWordHighlight,
 } from "@shikijs/transformers";
 import { transformerFileName } from "./src/utils/transformers/fileName";
+import vercel from "@astrojs/vercel";
 import { SITE } from "./src/config";
 
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
+  adapter: vercel(),
   integrations: [
     mdx(),
     react(),
@@ -58,6 +60,10 @@ export default defineConfig({
         access: "public",
         context: "client",
         optional: true,
+      }),
+      RESEND_API_KEY: envField.string({
+        access: "secret",
+        context: "server",
       }),
     },
   },
