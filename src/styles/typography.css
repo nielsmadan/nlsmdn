@@ -1,5 +1,38 @@
 @plugin "@tailwindcss/typography";
 
+/* Override typography plugin heading sizes.
+   Must be in @layer utilities because the plugin emits there;
+   @layer base would lose to it in the cascade.
+   Targets prose-sm/prose-base since those are the size variants used. */
+@layer utilities {
+  .prose-sm h1,
+  .prose-base h1 {
+    font-size: 1.75rem; /* 28px */
+  }
+
+  .prose-sm h2,
+  .prose-base h2 {
+    font-size: 1.375rem; /* 22px */
+  }
+
+  .prose-sm h3,
+  .prose-base h3 {
+    font-size: 1.175rem; /* ~19px */
+  }
+
+  .prose-sm h4,
+  .prose-base h4 {
+    font-size: 1rem; /* 16px */
+  }
+
+  .prose-sm a,
+  .prose-base a {
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-color: var(--color-accent);
+  }
+}
+
 @layer base {
   /* ===== Override default Tailwind Typography styles ===== */
   .app-prose {
@@ -28,7 +61,7 @@
     }
 
     a {
-      @apply wrap-break-word text-foreground decoration-dashed underline-offset-4 hover:text-accent focus-visible:no-underline;
+      @apply wrap-break-word text-foreground underline decoration-solid decoration-accent/40 underline-offset-4 hover:text-accent focus-visible:no-underline;
     }
 
     ul {
