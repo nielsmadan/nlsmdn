@@ -3,11 +3,11 @@ layout: ../layouts/AboutLayout.astro
 title: "About"
 ---
 
+<img src="https://media.nlsmdn.com/headshot.png" alt="Niels" width="200" style="margin-left:0" />
+
 Whelp, welcome to my blog. 
 
-I'm a Berlin-based freelance software developer. I have more than 15 years of experience, working professionally in C++, Python, and Javascript/Typescript. I spent the last ~8 years working mostly in React Native with some web React and various backends mixed in.
-
-I've had pretty much every software development role at some point; team lead, architect, product owner, scrum master, QA engineer, and I've also worked on every size of project from developing full-stack apps all by myself to working with 20 teams in three time zones on multi-year projects.
+I'm a Berlin-based freelance software developer with 15+ years of experience, working professionally in C++, Python, and Javascript/Typescript, focusing mostly on React Native recently but also working with React on web, Flutter, and various backends.
 
 With the advent of agentic coding, I feel like we've entered into some kind of software development renaissance (or apocalypse). I'm constantly trying out new things and figured I might as well write some of it up.
 

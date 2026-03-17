@@ -1,6 +1,6 @@
 ---
 title: "How to replace Warp in 3 lines of bash"
-pubDatetime: 2026-03-17T21:00:00+00:00
+pubDatetime: 2026-03-17T00:00:00+00:00
 description: "I start off this soon-to-be-esteemed blog by replacing a 100+ million-dollar startup's flagship software with a little bit of bash. You're welcome!"
 tags:
   - tooling
