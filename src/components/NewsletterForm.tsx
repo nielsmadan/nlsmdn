@@ -6,7 +6,9 @@ export default function NewsletterForm() {
   >("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(
+    e: React.SyntheticEvent<HTMLFormElement, SubmitEvent>,
+  ) {
     e.preventDefault();
     setStatus("loading");
     setErrorMsg("");
