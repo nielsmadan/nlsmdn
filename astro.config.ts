@@ -41,10 +41,6 @@ export default defineConfig({
     },
   },
   vite: {
-    // eslint-disable-next-line
-    // @ts-ignore
-    // This will be fixed in Astro 6 with Vite 7 support
-    // See: https://github.com/withastro/astro/issues/14030
     plugins: [tailwindcss()],
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],
@@ -67,25 +63,22 @@ export default defineConfig({
       }),
     },
   },
-  experimental: {
-    preserveScriptOrder: true,
-    fonts: [
-      {
-        name: "Space Mono",
-        cssVariable: "--font-space-mono",
-        provider: fontProviders.google(),
-        fallbacks: ["monospace"],
-        weights: [400, 700],
-        styles: ["normal", "italic"],
-      },
-      {
-        name: "DM Sans",
-        cssVariable: "--font-dm-sans",
-        provider: fontProviders.google(),
-        fallbacks: ["sans-serif"],
-        weights: [400, 500, 600, 700],
-        styles: ["normal", "italic"],
-      },
-    ],
-  },
+  fonts: [
+    {
+      name: "Space Mono",
+      cssVariable: "--font-space-mono",
+      provider: fontProviders.google(),
+      fallbacks: ["monospace"],
+      weights: [400, 700],
+      styles: ["normal", "italic"],
+    },
+    {
+      name: "DM Sans",
+      cssVariable: "--font-dm-sans",
+      provider: fontProviders.google(),
+      fallbacks: ["sans-serif"],
+      weights: [400, 500, 600, 700],
+      styles: ["normal", "italic"],
+    },
+  ],
 });
