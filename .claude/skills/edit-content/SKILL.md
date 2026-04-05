@@ -22,6 +22,8 @@ Review content substance: what to add, what to cut, and where the logic doesn't 
 
 ### Step 1: Read the file
 
+Always read the file fresh — the user may have made changes since the last invocation. Do not rely on any previously read version.
+
 Read the entire file. Identify:
 - **Topic** — what is this post about?
 - **Audience** — who is this written for? What do they already know?
@@ -40,6 +42,7 @@ Read through the post as a target reader would. For each section, consider:
 - **Dead ends** — does the post raise a topic or question and never resolve it?
 - **Ordering** — would sections work better in a different order?
 - **Factual accuracy** — are there verifiable claims (funding amounts, technical assertions, product names, dates, CLI flags, API details) that might be wrong? If unsure, research using WebSearch. Do NOT change opinions, subjective statements, or personal anecdotes.
+- **Link quality** — when adding links or references, prefer primary sources and full-text reproductions over excerpts or secondary reporting. If a quote is cited, link to a source that contains the full text, not one that only paraphrases it.
 
 **Critical rules:**
 

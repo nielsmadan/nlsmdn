@@ -22,6 +22,8 @@ Improve phrasing and readability while preserving the author's tone and content.
 
 ### Step 1: Read the file
 
+Always read the file fresh — the user may have made changes since the last invocation. Do not rely on any previously read version.
+
 Read the entire file. Identify:
 - **Tone** — casual, formal, technical, humorous, etc.
 - **Voice** — sentence length patterns, vocabulary level, use of fragments, colloquialisms
@@ -33,9 +35,10 @@ Go paragraph by paragraph. For each, consider:
 
 - **Clarity** — is the meaning immediately clear? Can a sentence be untangled without changing what it says?
 - **Flow** — do sentences connect smoothly? Are transitions natural?
-- **Conciseness** — can wordiness be trimmed without losing meaning or voice?
+- **Conciseness** — can wordiness be trimmed without losing meaning or voice? Actively cut filler words and phrases that add no meaning: "actually", "really", "basically", "just", "quite", "as well", "in order to" (→ "to"), "the fact that", "it is worth noting that", "at this point in time" (→ "now"), "a number of" (→ "several"/"many"), "in terms of", "due to the fact that" (→ "because"), "whether or not" (→ "whether").
 - **Rhythm** — is there variety in sentence length? Does it read well aloud?
 - **Word choice** — is there a more precise or vivid word that fits the tone?
+- **Word echoes** — is the same word repeated in close proximity where a pronoun, synonym, or article would read more naturally? (e.g., "that boost... that firehose" → "that boost... the firehose")
 
 **Critical rules:**
 

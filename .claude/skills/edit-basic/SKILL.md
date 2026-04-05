@@ -13,6 +13,8 @@ Light copy-editing. Preserves the author's voice completely.
 
 ### Step 1: Read the file
 
+Always read the file fresh — the user may have made changes since the last invocation. Do not rely on any previously read version.
+
 Read the entire file. Identify the language and tone — casual, formal, technical, etc.
 
 ### Step 2: Fix spelling, punctuation, and grammar

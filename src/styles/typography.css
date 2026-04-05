@@ -81,7 +81,11 @@
     }
 
     figcaption {
-      @apply opacity-75;
+      @apply mt-2 text-center text-sm italic opacity-75;
+    }
+
+    .img-caption {
+      @apply -mt-6 block text-center text-sm italic opacity-85;
     }
 
     table {

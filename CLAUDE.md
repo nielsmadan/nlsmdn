@@ -49,6 +49,10 @@ modDatetime: date      # optional
 
 Posts with `draft: true` or `pubDatetime` in the future are filtered out in production.
 
+### Links and references
+
+When adding links and references to blog posts, prefer academic studies, primary sources, and reputable outlets (e.g. research institutions, major news organizations, official documentation) over aggregator blogs and SEO content farms. Before inserting a link, quote the specific line(s) from the source that support the claim being linked, so the user can verify the source actually says what we need it to say.
+
 ### OG images
 
 Dynamic OG images are generated via satori + resvg-js. Templates are in `src/utils/og-templates/`.

@@ -70,7 +70,7 @@ Invoke `/edit-basic`. This is the final pass. Present, approve, apply.
 
 ### Step 6: Done
 
-Confirm the editorial pass is complete.
+Confirm the editorial pass is finished.
 
 **Critical rules:**
 
