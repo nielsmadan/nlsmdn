@@ -3,6 +3,9 @@
     "allow": [
       "Bash(bun run:*)",
       "Bash(grep:*)"
+    ],
+    "additionalDirectories": [
+      "/Users/nielsmadan/wrksp/notes/work/blog"
     ]
   }
 }
