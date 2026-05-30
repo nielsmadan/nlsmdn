@@ -23,8 +23,14 @@ export default function NewsletterForm() {
       });
 
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Something went wrong.");
+        let message = "Something went wrong.";
+        try {
+          const data = await res.json();
+          if (data?.error) message = data.error;
+        } catch {
+          // non-JSON body (e.g. platform error page); keep default
+        }
+        throw new Error(message);
       }
 
       setStatus("success");
@@ -54,14 +60,15 @@ export default function NewsletterForm() {
           name="email"
           placeholder="you@example.com"
           required
-          className="min-w-0 flex-1 rounded border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-foreground/40 focus:outline-none focus:ring-1 focus:ring-accent"
+          disabled={status === "loading"}
+          className="min-w-0 flex-1 rounded border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-foreground/40 focus:outline-none focus:ring-1 focus:ring-accent disabled:opacity-50"
         />
         <button
           type="submit"
           disabled={status === "loading"}
           className="rounded bg-accent px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-85 disabled:opacity-50"
         >
-          {status === "loading" ? "..." : "Subscribe"}
+          {status === "loading" ? "Subscribing…" : "Subscribe"}
         </button>
       </div>
       {status === "error" && <p className="text-xs text-red-500">{errorMsg}</p>}
