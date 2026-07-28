@@ -45,6 +45,6 @@
     "@types/lodash.kebabcase": "^4.1.9",
     "lefthook": "^2.1.0",
     "pagefind": "^1.4.0",
-    "typescript": "^6.0.2"
+    "typescript": "^7.0.2"
   }
 }
