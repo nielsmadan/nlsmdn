@@ -29,3 +29,5 @@ pnpm-debug.log*
 # pagefind
 
 public/pagefind
+splashdown.env
+splashdown.local.toml

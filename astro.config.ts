@@ -16,6 +16,7 @@ import { SITE } from "./src/config";
 
 // https://astro.build/config
 export default defineConfig({
+  server: { port: Number(process.env.WEB_DEV_PORT) || 4321 },
   site: SITE.website,
   adapter: vercel(),
   integrations: [

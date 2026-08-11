@@ -7,3 +7,8 @@ pre-commit:
       stage_fixed: true
     astro-check:
       run: bun run astro check
+
+post-checkout:
+  commands:
+    splashdown:
+      run: splash
