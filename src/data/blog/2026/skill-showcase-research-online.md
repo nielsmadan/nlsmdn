@@ -1,5 +1,5 @@
 ---
-title: "Skill Showcase: research-online"
+title: "Skill Showcase: /research-online"
 pubDatetime: 2026-03-24T00:00:00+00:00
 description: "Making your coding agents smarter about evaluating online research since November 2025."
 tags:
