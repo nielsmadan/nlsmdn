@@ -10,6 +10,9 @@ bun run dev      # localhost:4321
 bun run build    # production build
 ```
 
+Draft posts can be previewed at their `/posts/...` URL during `bun run dev`.
+They remain excluded from production builds, feeds, and post listings.
+
 ## Blog media
 
 Inline images and GIFs **match the text column width**: currently 736 CSS pixels
