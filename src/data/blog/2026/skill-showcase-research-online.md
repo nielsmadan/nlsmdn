@@ -5,6 +5,7 @@ description: "Making your coding agents smarter about evaluating online research
 tags:
   - skills
   - ai
+  - skill showcase
 ---
 
 Has this ever happened to you?

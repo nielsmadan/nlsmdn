@@ -1,11 +1,11 @@
 ---
 title: "Skill Showcase: /guide"
-pubDatetime: 2026-08-10T00:00:00+00:00
+pubDatetime: 2026-09-09T11:51:44+00:00
 description: Help your agent help you.
-draft: true
 tags:
   - skills
   - ai
+  - skill showcase
 ---
 
 Has this ever happened to you?
