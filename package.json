@@ -12,7 +12,10 @@
     "lint:fix": "biome lint --write src",
     "format": "biome format --write src",
     "check": "biome check src",
-    "check:fix": "biome check --write src"
+    "check:fix": "biome check --write src",
+    "format:check": "biome format src",
+    "type-check": "astro check",
+    "check-all": "bun run check && bun run type-check"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.2",
