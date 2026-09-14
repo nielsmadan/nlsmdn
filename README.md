@@ -10,6 +10,8 @@ bun run dev      # localhost:4321
 bun run build    # production build
 ```
 
+Git hooks install automatically with dependencies, through the `prepare` script.
+
 Draft posts can be previewed at their `/posts/...` URL during `bun run dev`.
 They remain excluded from production builds, feeds, and post listings.
 

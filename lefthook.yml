@@ -12,3 +12,8 @@ post-checkout:
   commands:
     splashdown:
       run: splash
+
+pre-push:
+  commands:
+    check-all:
+      run: bun run check-all
