@@ -5,12 +5,13 @@ Personal blog at [nlsmdn.com](https://nlsmdn.com), built with [Astro](https://as
 ## Development
 
 ```bash
-bun install
+bun run setup
 bun run dev      # localhost:4321
 bun run build    # production build
 ```
 
-Git hooks install automatically with dependencies, through the `prepare` script.
+Run `bun run setup` after cloning to install locked dependencies and Git hooks.
+`bun run doctor` verifies the local dependencies and hook installation.
 
 Draft posts can be previewed at their `/posts/...` URL during `bun run dev`.
 They remain excluded from production builds, feeds, and post listings.

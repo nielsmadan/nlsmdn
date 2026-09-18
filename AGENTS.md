@@ -7,7 +7,8 @@ Personal blog at nlsmdn.com, built with Astro 5 and based on the AstroPaper them
 ## Commands
 
 ```bash
-bun install              # install dependencies
+bun run setup            # locked dependencies, Git hooks, then doctor
+bun run doctor           # verify local dependencies and hook installation
 bun run dev              # dev server at localhost:4321
 bun run build            # type-check + build + pagefind index
 bun run preview          # preview production build

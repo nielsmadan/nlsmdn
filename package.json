@@ -3,7 +3,8 @@
   "type": "module",
   "version": "5.5.1",
   "scripts": {
-    "prepare": "lefthook install || true",
+    "setup": "bun install --frozen-lockfile && lefthook install && bun run doctor",
+    "doctor": "test -d node_modules && lefthook validate && test -x \"$(git rev-parse --git-path hooks/pre-commit)\" && test -x \"$(git rev-parse --git-path hooks/post-checkout)\" && test -x \"$(git rev-parse --git-path hooks/pre-push)\" || { echo 'Setup incomplete; run bun run setup' >&2; exit 1; }",
     "dev": "astro dev",
     "build": "astro check && astro build && pagefind --site dist && cp -r dist/pagefind public/",
     "preview": "astro preview",
