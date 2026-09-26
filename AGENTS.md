@@ -2,7 +2,7 @@
 
 ## Project
 
-Personal blog at nlsmdn.com, built with Astro 5 and based on the AstroPaper theme. Uses Tailwind CSS v4, MDX, and React. Deployed on Vercel.
+Personal blog at nlsmdn.com, built with Astro and based on the AstroPaper theme. Uses Tailwind CSS, MDX, and React. Deployed on Vercel.
 
 ## Commands
 
