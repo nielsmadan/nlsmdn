@@ -29,8 +29,11 @@ the shot's aspect ratio. Exclude black letterbox bars from the visible frame.
 
 For the /guide post, the GIF is 960 × 408 at 45% speed. The 1920 × 1080 Gandalf
 still uses a 1920:804 figure and centered `object-fit: cover` to hide its 138-pixel
-top and bottom bars, displaying at about 736 × 308 on desktop. Local files live in
-`public/images/blog/skill-showcase-guide/`.
+top and bottom bars, displaying at about 736 × 308 on desktop.
+
+Media files are served from `https://media.nlsmdn.com/blog/<file>`, a Cloudflare
+R2 bucket; nothing is stored in this repo. Uploads are manual for now (see the
+Hosting section of `~/wrksp/assets/docs/blog-media.md`).
 
 The producer's sizing convention and handoff are saved in
 `~/wrksp/assets/docs/blog-media.md`; export recipes live in that repo's
