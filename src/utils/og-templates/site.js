@@ -16,6 +16,7 @@ export default async () => {
           justifyContent: "center",
           alignItems: "center",
           padding: "48px 56px",
+          boxSizing: "border-box",
           fontFamily: "DM Sans",
         },
         children: [
@@ -23,6 +24,7 @@ export default async () => {
             type: "p",
             props: {
               style: {
+                margin: "16px 0",
                 fontSize: 72,
                 fontWeight: "bold",
                 fontFamily: "Space Mono",
@@ -37,7 +39,7 @@ export default async () => {
               style: {
                 fontSize: 28,
                 color: "#fffcf2",
-                marginTop: "16px",
+                margin: "16px 0",
               },
               children: SITE.desc,
             },
@@ -48,7 +50,7 @@ export default async () => {
               style: {
                 fontSize: 24,
                 color: "#ccc5b9",
-                marginTop: "24px",
+                margin: "24px 0 16px",
               },
               children: new URL(SITE.website).hostname,
             },

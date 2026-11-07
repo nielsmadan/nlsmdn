@@ -21,6 +21,7 @@ export default async (post) => {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "48px 56px",
+          boxSizing: "border-box",
           fontFamily: "DM Sans",
         },
         children: [
@@ -37,6 +38,7 @@ export default async (post) => {
                   type: "p",
                   props: {
                     style: {
+                      margin: "16px 0",
                       fontSize: 52,
                       fontWeight: "bold",
                       fontFamily: "Space Mono",
@@ -52,6 +54,7 @@ export default async (post) => {
                   type: "p",
                   props: {
                     style: {
+                      margin: "16px 0",
                       fontSize: 22,
                       color: "#ccc5b9",
                     },
@@ -62,6 +65,7 @@ export default async (post) => {
                   type: "p",
                   props: {
                     style: {
+                      margin: "16px 0",
                       fontSize: 26,
                       color: "#fffcf2",
                       lineHeight: 1.4,
