@@ -3,6 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
+import { unified } from "@astrojs/markdown-remark";
 import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import {
@@ -18,6 +19,7 @@ import { SITE } from "./src/config";
 export default defineConfig({
   server: { port: Number(process.env.WEB_DEV_PORT) || 4321 },
   site: SITE.website,
+  compressHTML: true,
   adapter: vercel(),
   integrations: [
     mdx(),
@@ -27,7 +29,9 @@ export default defineConfig({
     }),
   ],
   markdown: {
-    remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
+    processor: unified({
+      remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
+    }),
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
       themes: { light: "min-light", dark: "night-owl" },
