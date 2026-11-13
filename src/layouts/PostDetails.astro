@@ -5,6 +5,7 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Tag from "@/components/Tag.astro";
 import Datetime from "@/components/Datetime.astro";
+import SeriesHeader from "@/components/SeriesHeader.astro";
 import ShareLinks from "@/components/ShareLinks.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
 import NewsletterForm from "@/components/NewsletterForm";
@@ -31,6 +32,7 @@ const {
   modDatetime,
   timezone,
   tags,
+  series,
 } = post.data;
 
 const { Content } = await render(post);
@@ -94,6 +96,7 @@ const nextPost =
       {title}
     </h1>
     <Datetime {pubDatetime} {modDatetime} {timezone} showIcon={false} size="xs" class="mt-1" />
+    {series && <SeriesHeader {series} />}
     <article
       id="article"
       class="app-prose mt-8 w-full max-w-app prose-sm sm:prose-base prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"

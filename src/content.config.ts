@@ -2,6 +2,7 @@ import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 import { SITE } from "@/config";
+import { SERIES_SLUGS } from "@/series";
 
 export const BLOG_PATH = "src/data/blog";
 
@@ -16,6 +17,7 @@ const blog = defineCollection({
       featured: z.boolean().optional(),
       draft: z.boolean().optional(),
       tags: z.array(z.string()).default(["others"]),
+      series: z.enum(SERIES_SLUGS).optional(),
       ogImage: image().or(z.string()).optional(),
       description: z.string(),
       canonicalURL: z.string().optional(),

@@ -5,6 +5,7 @@ description: "I bought a Mac Studio and I'm handing it over to a fleet of coding
 tags:
   - ai
   - slimemold
+series: slimemold-diaries
 ---
 
 I have an M1 Max MacBook Pro with 64 GB RAM, but it's not enough anymore. All those agents, and Docker, and test runs, and compiles. I got it when it came out, five years ago. It served me well for a long time. I never reached its limits before. But nothing lasts forever. Time to upgrade.

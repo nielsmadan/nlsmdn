@@ -1,0 +1,43 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Main from "@/layouts/Main.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import getPostsBySeries from "@/utils/getPostsBySeries";
+import { SERIES, SERIES_SLUGS } from "@/series";
+import { SITE } from "@/config";
+
+const posts = await getCollection("blog");
+
+const seriesList = SERIES_SLUGS.map(slug => ({
+  slug,
+  ...SERIES[slug],
+  count: getPostsBySeries(posts, slug).length,
+}));
+---
+
+<Layout title={`Series | ${SITE.title}`}>
+  <Header />
+  <Main pageTitle="Series" pageDesc="Posts that belong together.">
+    <ul>
+      {
+        seriesList.map(({ slug, title, blurb, count }) => (
+          <li class="my-6">
+            <a
+              href={`/series/${slug}/`}
+              class="inline-block font-heading text-lg font-medium text-accent decoration-dashed underline-offset-4 hover:underline sm:text-xl"
+            >
+              <h2>{title}</h2>
+            </a>
+            <p class="text-xs opacity-80">
+              {count} {count === 1 ? "post" : "posts"}
+            </p>
+            <p class="mt-1">{blurb}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </Main>
+  <Footer />
+</Layout>

@@ -1,0 +1,22 @@
+---
+import { SERIES, type SeriesSlug } from "@/series";
+
+type Props = {
+  series: SeriesSlug;
+};
+
+const { series } = Astro.props;
+const { title, header } = SERIES[series];
+---
+
+<aside
+  data-pagefind-ignore
+  class="mt-6 rounded border border-border bg-muted/40 px-4 py-3 text-sm italic"
+>
+  {header} Part of the
+  <a
+    href={`/series/${series}/`}
+    class="font-semibold text-accent underline decoration-dashed underline-offset-4 hover:opacity-75"
+    >{title}</a
+  > series.
+</aside>

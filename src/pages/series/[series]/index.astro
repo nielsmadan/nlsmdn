@@ -1,0 +1,38 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Main from "@/layouts/Main.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Card from "@/components/Card.astro";
+import getPostsBySeries from "@/utils/getPostsBySeries";
+import { SERIES, SERIES_SLUGS, type SeriesSlug } from "@/series";
+import { SITE } from "@/config";
+
+type Props = {
+  series: SeriesSlug;
+};
+
+export function getStaticPaths() {
+  return SERIES_SLUGS.map(series => ({
+    params: { series },
+    props: { series },
+  }));
+}
+
+const { series } = Astro.props;
+const { title, blurb } = SERIES[series];
+
+const posts = await getCollection("blog");
+const seriesPosts = getPostsBySeries(posts, series);
+---
+
+<Layout title={`${title} | ${SITE.title}`} description={blurb}>
+  <Header />
+  <Main pageTitle={title} pageDesc={blurb}>
+    <ul>
+      {seriesPosts.map(data => <Card {...data} />)}
+    </ul>
+  </Main>
+  <Footer />
+</Layout>

@@ -5,6 +5,7 @@ description: "What OpenClaw and Gas City taught me about agent systems, the one 
 tags:
   - ai
   - slimemold
+series: slimemold-diaries
 ---
 
 I set up some software factory-ish things in the past and learned a few lessons.

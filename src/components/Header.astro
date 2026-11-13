@@ -75,6 +75,11 @@ const isActive = (path: string) => {
             About
           </a>
         </li>
+        <li class="col-span-2">
+          <a href="/series" class:list={{ "active-nav": isActive("/series") }}>
+            Series
+          </a>
+        </li>
         {
           SITE.showArchives && (
             <li class="col-span-2">
