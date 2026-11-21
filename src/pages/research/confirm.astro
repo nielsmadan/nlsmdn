@@ -1,0 +1,68 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Main from "@/layouts/Main.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { RESEARCH_TOKEN_SECRET } from "astro:env/server";
+import { RESEARCH } from "@/research.config";
+import { SITE } from "@/config";
+import { openToken } from "@/utils/research/token";
+import { scopeLabel } from "@/utils/research/signup";
+import { nowSeconds, signupArticles } from "@/utils/researchSignup";
+
+export const prerender = false;
+
+Astro.response.headers.set("Referrer-Policy", "same-origin");
+Astro.response.headers.set("Cache-Control", "no-store");
+
+const t = Astro.url.searchParams.get("t") ?? "";
+const payload =
+  t && RESEARCH_TOKEN_SECRET
+    ? await openToken(t, RESEARCH_TOKEN_SECRET, nowSeconds())
+    : null;
+const articles = payload ? await signupArticles() : [];
+const valid =
+  payload !== null &&
+  (payload.s === "all" || articles.some((a) => a.slug === payload.s));
+const linkClass =
+  "underline decoration-dashed underline-offset-4 hover:text-accent";
+---
+
+<Layout title={`Confirm subscription | ${SITE.title}`} noindex>
+  <Header />
+  <Main pageTitle="Confirm subscription">
+    {
+      valid && payload ? (
+        <div class="space-y-4">
+          <p>
+            Subscribe <strong>{payload.e}</strong> to{" "}
+            {scopeLabel(payload.s, articles)}?
+          </p>
+          <p class="text-xs text-foreground/60">{RESEARCH.consentText}</p>
+          <form method="post" action="/api/research/confirm" data-astro-reload>
+            <input type="hidden" name="t" value={t} />
+            <button
+              type="submit"
+              class="rounded bg-accent px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-85"
+            >
+              Confirm subscription
+            </button>
+          </form>
+        </div>
+      ) : (
+        <div class="space-y-4">
+          <p>
+            This confirmation link has expired or is not valid. Links work for
+            48 hours. Please sign up again.
+          </p>
+          <p>
+            <a href={RESEARCH.path} class={linkClass}>
+              Back to {RESEARCH.title}
+            </a>
+          </p>
+        </div>
+      )
+    }
+  </Main>
+  <Footer />
+</Layout>

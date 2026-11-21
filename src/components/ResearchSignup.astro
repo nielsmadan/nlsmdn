@@ -1,4 +1,7 @@
 ---
+import ResearchSubscribeForm from "@/components/ResearchSubscribeForm";
+import { RESEARCH } from "@/research.config";
+
 type Props = {
   scope: string;
 };
@@ -6,4 +9,10 @@ type Props = {
 const { scope } = Astro.props;
 ---
 
-<div id="research-signup" data-scope={scope} data-pagefind-ignore></div>
+<div id="research-signup" data-scope={scope} data-pagefind-ignore>
+  <ResearchSubscribeForm
+    client:idle
+    scope={scope}
+    siteKey={RESEARCH.turnstileSiteKey}
+  />
+</div>

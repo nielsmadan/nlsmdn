@@ -25,7 +25,9 @@ export default defineConfig({
     mdx(),
     react(),
     sitemap({
-      filter: page => SITE.showArchives || !page.endsWith("/archives"),
+      filter: page =>
+        (SITE.showArchives || !page.endsWith("/archives")) &&
+        !/\/research\/(confirm|subscribed)\/?$/.test(page),
     }),
   ],
   markdown: {

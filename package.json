@@ -13,11 +13,12 @@
     "lint": "biome lint src",
     "lint:fix": "biome lint --write src",
     "format": "biome format --write src",
-    "check": "biome check src",
-    "check:fix": "biome check --write src",
+    "check": "biome check src scripts",
+    "check:fix": "biome check --write src scripts",
     "format:check": "biome format src",
     "type-check": "astro check",
-    "check-all": "bun run check && bun run type-check"
+    "check-all": "bun run check && bun run type-check",
+    "research:notify": "bun scripts/research-notify/main.ts"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.8",

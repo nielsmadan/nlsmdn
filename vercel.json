@@ -19,10 +19,28 @@
         {
           "key": "X-XSS-Protection",
           "value": "1; mode=block"
-        },
+        }
+      ]
+    },
+    {
+      "source": "/((?!research/confirm(?:/|$)).*)",
+      "headers": [
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/research/confirm(/?)",
+      "headers": [
+        {
+          "key": "Referrer-Policy",
+          "value": "same-origin"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
         }
       ]
     }

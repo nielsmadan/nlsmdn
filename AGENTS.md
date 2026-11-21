@@ -32,6 +32,7 @@ bun run sync             # regenerate Astro types
 - `src/constants.ts` — social links and share link definitions
 - `src/series.ts` — series definitions (title, blurb for the series page, header shown on each post); a post joins one with `series:` in its frontmatter
 - `src/content.config.ts` — blog collection schema (Astro content collections with glob loader)
+- `docs/research-section.md` — Research section: data flow, rules, subscription model, one-time setup and smoke test
 
 ### Blog posts
 

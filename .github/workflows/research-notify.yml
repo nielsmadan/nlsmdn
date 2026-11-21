@@ -1,0 +1,48 @@
+name: research-notify
+
+on:
+  repository_dispatch:
+    types: [vercel.deployment.success]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Plan only: print the broadcasts, send nothing"
+        type: boolean
+        default: true
+
+concurrency:
+  group: research-notify
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    if: >-
+      (github.event_name == 'workflow_dispatch' && inputs.dry_run) ||
+      (vars.RESEARCH_NOTIFY_ENABLED == 'true' && (
+        (github.event_name == 'repository_dispatch' && github.event.client_payload.environment == 'production') ||
+        github.event_name == 'workflow_dispatch'
+      ))
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.client_payload.git.sha || '' }}
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+
+      - run: bun install --frozen-lockfile
+
+      - name: Notify subscribers
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          NOTIFY_SHA: ${{ github.event.client_payload.git.sha || github.sha }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && '1' || '' }}
+        run: bun run research:notify

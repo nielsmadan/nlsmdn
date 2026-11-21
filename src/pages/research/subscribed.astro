@@ -1,0 +1,36 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Main from "@/layouts/Main.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { RESEARCH } from "@/research.config";
+import { SITE } from "@/config";
+import { isKnownScope, scopeLabel } from "@/utils/research/signup";
+import { signupArticles } from "@/utils/researchSignup";
+
+export const prerender = false;
+
+const scope = Astro.url.searchParams.get("scope") ?? "";
+const articles = await signupArticles();
+const label = isKnownScope(scope, articles)
+  ? scopeLabel(scope, articles)
+  : "research notes on nlsmdn.com";
+const linkClass =
+  "underline decoration-dashed underline-offset-4 hover:text-accent";
+---
+
+<Layout title={`Subscribed | ${SITE.title}`} noindex>
+  <Header />
+  <Main pageTitle="Subscribed">
+    <div class="space-y-4">
+      <p>You are subscribed to {label}.</p>
+      <p>
+        Every email has a link to change your preferences or unsubscribe.
+      </p>
+      <p>
+        <a href={RESEARCH.path} class={linkClass}>Back to {RESEARCH.title}</a>
+      </p>
+    </div>
+  </Main>
+  <Footer />
+</Layout>
