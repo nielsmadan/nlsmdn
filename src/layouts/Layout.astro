@@ -16,6 +16,7 @@ type Props = {
   pubDatetime?: Date;
   modDatetime?: Date | null;
   scrollSmooth?: boolean;
+  extraFeeds?: { title: string; href: string }[];
 };
 
 const {
@@ -28,6 +29,7 @@ const {
   pubDatetime,
   modDatetime,
   scrollSmooth = false,
+  extraFeeds = [],
 } = Astro.props;
 
 const socialImageURL = new URL(ogImage, Astro.url);
@@ -125,6 +127,16 @@ const structuredData = {
       title={SITE.title}
       href={new URL("rss.xml", Astro.site)}
     />
+    {
+      extraFeeds.map((feed) => (
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={feed.title}
+          href={new URL(feed.href, Astro.site)}
+        />
+      ))
+    }
 
     <meta name="theme-color" content="" />
 

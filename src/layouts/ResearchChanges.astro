@@ -1,0 +1,57 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import LinkButton from "@/components/LinkButton.astro";
+import ResearchVersionLine from "@/components/ResearchVersionLine.astro";
+import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
+import type { ResearchMeta } from "@/types/research";
+import { articlePath } from "@/utils/research/articles";
+import { SITE } from "@/config";
+
+type Props = {
+  meta: ResearchMeta;
+  hasCurrent: boolean;
+  pageTitle: string;
+};
+
+const { meta, hasCurrent, pageTitle } = Astro.props;
+---
+
+<Layout
+  title={`${pageTitle} | ${meta.title} | ${SITE.title}`}
+  description={`${pageTitle} in the research note "${meta.title}".`}
+  extraFeeds={[{ title: `${meta.title} versions`, href: `${articlePath(meta.slug)}rss.xml` }]}
+>
+  <Header />
+  <main id="main-content" class="app-layout mt-8 pb-4">
+    <LinkButton
+      href={articlePath(meta.slug)}
+      class="-ms-1.5 mb-4 text-sm opacity-80 hover:opacity-100"
+    >
+      <IconChevronLeft class="inline-block size-5 rtl:rotate-180" />
+      <span>Back to the note</span>
+    </LinkButton>
+    <h1
+      class="block font-heading text-xl font-bold text-accent sm:text-[1.75rem]"
+    >
+      <a
+        href={articlePath(meta.slug)}
+        class="decoration-dashed underline-offset-4 hover:underline">{meta.title}</a
+      >
+    </h1>
+    <ResearchVersionLine {meta} {hasCurrent} class="mt-1" />
+
+    <slot />
+
+    <hr class="my-6 border-dashed" />
+    <LinkButton
+      href={articlePath(meta.slug)}
+      class="-ms-1.5 text-sm opacity-80 hover:opacity-100"
+    >
+      <IconChevronLeft class="inline-block size-5 rtl:rotate-180" />
+      <span>Back to the note</span>
+    </LinkButton>
+  </main>
+  <Footer />
+</Layout>

@@ -1,5 +1,7 @@
 import type { CollectionEntry } from "astro:content";
 import { Resvg } from "@resvg/resvg-js";
+import { SITE } from "@/config";
+import type { ResearchMeta } from "@/types/research";
 import postOgImage from "./og-templates/post";
 import siteOgImage from "./og-templates/site";
 
@@ -11,6 +13,18 @@ function svgBufferToPngBuffer(svg: string) {
 
 export async function generateOgImageForPost(post: CollectionEntry<"blog">) {
   const svg = await postOgImage(post);
+  return svgBufferToPngBuffer(svg);
+}
+
+export async function generateOgImageForResearch(meta: ResearchMeta) {
+  const svg = await postOgImage({
+    data: {
+      title: meta.title,
+      description: meta.description,
+      author: SITE.author,
+      pubDatetime: meta.updated,
+    },
+  });
   return svgBufferToPngBuffer(svg);
 }
 

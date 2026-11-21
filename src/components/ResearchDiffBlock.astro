@@ -1,0 +1,24 @@
+---
+import type { DiffBlock } from "@/utils/research/diff";
+
+type Props = {
+  block: DiffBlock;
+};
+
+const { block } = Astro.props;
+
+const Tag =
+  block.level === "heading" ? "h4" : block.level === "code" ? "pre" : "p";
+---
+
+<Tag class="research-diff-block" data-kind={block.kind} data-level={block.level}>{
+  block.segments.map((s) =>
+    s.op === "ins" ? (
+      <ins class:list={{ "research-diff-url": s.url }}>{s.text}</ins>
+    ) : s.op === "del" ? (
+      <del class:list={{ "research-diff-url": s.url }}>{s.text}</del>
+    ) : (
+      s.text
+    ),
+  )
+}</Tag>

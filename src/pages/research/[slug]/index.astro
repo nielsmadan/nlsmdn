@@ -1,0 +1,25 @@
+---
+import { render } from "astro:content";
+import ResearchArticle from "@/layouts/ResearchArticle.astro";
+import type { ResearchMeta } from "@/types/research";
+import { getPublicText } from "@/utils/research/articles";
+import { getArticle, getResearchArticles } from "@/utils/researchCollections";
+
+type Props = {
+  meta: ResearchMeta;
+};
+
+export async function getStaticPaths() {
+  const metas = await getResearchArticles();
+  return metas.map((meta) => ({ params: { slug: meta.slug }, props: { meta } }));
+}
+
+const { meta } = Astro.props;
+const article = await getArticle(meta.slug);
+if (!article) throw new Error(`Research ${meta.slug} not found`);
+const { Content } = await render(getPublicText(article));
+---
+
+<ResearchArticle meta={article.meta} hasCurrent={article.current !== null}>
+  <Content />
+</ResearchArticle>

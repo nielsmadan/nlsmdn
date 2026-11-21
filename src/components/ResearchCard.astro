@@ -1,0 +1,27 @@
+---
+import type { ResearchMeta } from "@/types/research";
+import { articlePath } from "@/utils/research/articles";
+import ResearchVersionLine from "./ResearchVersionLine.astro";
+
+type Props = {
+  meta: ResearchMeta;
+  hasCurrent: boolean;
+};
+
+const { meta, hasCurrent } = Astro.props;
+---
+
+<li class="my-6">
+  <a
+    href={articlePath(meta.slug)}
+    class:list={[
+      "inline-block font-heading text-lg font-medium text-accent sm:text-xl",
+      "decoration-dashed underline-offset-4 hover:underline",
+      "focus-visible:no-underline focus-visible:underline-offset-0",
+    ]}
+  >
+    <h2>{meta.title}</h2>
+  </a>
+  <ResearchVersionLine {meta} {hasCurrent} class="text-xs" />
+  <p class="mt-1">{meta.description}</p>
+</li>

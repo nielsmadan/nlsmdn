@@ -1,0 +1,86 @@
+---
+import ResearchChanges from "@/layouts/ResearchChanges.astro";
+import ResearchVersionChanges from "@/components/ResearchVersionChanges.astro";
+import type { ResearchMeta } from "@/types/research";
+import { changesPath, formatResearchDate } from "@/utils/research/articles";
+import { getArticle, getResearchArticles } from "@/utils/researchCollections";
+
+type Props = {
+  meta: ResearchMeta;
+  version: number | "current";
+};
+
+export async function getStaticPaths() {
+  const metas = await getResearchArticles();
+  const articles = await Promise.all(metas.map((meta) => getArticle(meta.slug)));
+  return articles.flatMap((article) =>
+    article
+      ? [
+          ...article.meta.versions.map(({ n }) => ({
+            params: { slug: article.meta.slug, version: `v${n}` },
+            props: { meta: article.meta, version: n },
+          })),
+          ...(article.current
+            ? [
+                {
+                  params: { slug: article.meta.slug, version: "current" },
+                  props: { meta: article.meta, version: "current" as const },
+                },
+              ]
+            : []),
+        ]
+      : [],
+  );
+}
+
+const { version } = Astro.props;
+const article = await getArticle(Astro.props.meta.slug);
+if (!article) throw new Error(`Research ${Astro.props.meta.slug} not found`);
+const { meta, versions, current } = article;
+const latestN = meta.versions.at(-1)?.n ?? 1;
+const entry = version === "current" ? null : meta.versions[version - 1];
+const pageTitle =
+  version === "current"
+    ? `Minor edits since version ${latestN}`
+    : `What changed in version ${version}`;
+const minorDates = meta.minorEdits.map(formatResearchDate).join(", ");
+---
+
+<ResearchChanges {meta} hasCurrent={current !== null} {pageTitle}>
+  {
+    version === "current" ? (
+      <ResearchVersionChanges
+        heading={pageTitle}
+        note={minorDates ? `Small fixes made on ${minorDates}.` : undefined}
+        diff={{
+          label: `Changes from version ${latestN}`,
+          oldBody: versions[latestN - 1].body ?? "",
+          newBody: current?.body ?? "",
+        }}
+      />
+    ) : entry?.n === 1 ? (
+      <ResearchVersionChanges
+        heading="Version 1"
+        note={`First published ${formatResearchDate(entry.date)}.`}
+      />
+    ) : entry ? (
+      <ResearchVersionChanges
+        heading={`Version ${entry.n} · ${formatResearchDate(entry.date)}`}
+        summary={entry.summary}
+        diff={{
+          label: `Changes from version ${entry.n - 1}`,
+          oldBody: versions[entry.n - 2].body ?? "",
+          newBody: versions[entry.n - 1].body ?? "",
+        }}
+      />
+    ) : null
+  }
+
+  <p class="mt-8">
+    <a
+      href={changesPath(meta.slug)}
+      class="underline decoration-dashed underline-offset-4 hover:text-accent"
+      >All versions and changes</a
+    >
+  </p>
+</ResearchChanges>

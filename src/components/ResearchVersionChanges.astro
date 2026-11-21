@@ -1,0 +1,44 @@
+---
+import ResearchDiff from "./ResearchDiff.astro";
+import { collapseUnchanged, diffDocumentsCached } from "@/utils/research/diff";
+import { demoteHeadings, renderResearchMarkdown } from "@/utils/research/markdown";
+
+type Props = {
+  heading: string;
+  note?: string;
+  summary?: string;
+  diff?: { label: string; oldBody: string; newBody: string };
+};
+
+const { heading, note, summary, diff } = Astro.props;
+
+const summaryHtml = summary ? demoteHeadings(await renderResearchMarkdown(summary), 2) : null;
+const blocks = diff ? diffDocumentsCached(diff.oldBody, diff.newBody) : [];
+const onlyFormatting = diff !== undefined && blocks.every((b) => b.kind === "same");
+---
+
+<section class="mt-8">
+  <h2 class="font-heading text-lg font-bold sm:text-xl">{heading}</h2>
+  {note && <p class="mt-2">{note}</p>}
+  {
+    summaryHtml && (
+      <div
+        class="app-prose mt-4 w-full max-w-app prose-sm sm:prose-base"
+        set:html={summaryHtml}
+      />
+    )
+  }
+  {
+    diff && (
+      <>
+        <h3 class="mt-8 font-heading text-base font-bold">{diff.label}</h3>
+        {onlyFormatting ? (
+          <p class="mt-2">Only formatting changed. The text and links are the same.</p>
+        ) : (
+          <ResearchDiff blocks={collapseUnchanged(blocks)} />
+        )}
+      </>
+    )
+  }
+  <slot />
+</section>

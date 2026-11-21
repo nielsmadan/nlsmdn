@@ -1,0 +1,81 @@
+---
+import ResearchChanges from "@/layouts/ResearchChanges.astro";
+import ResearchVersionChanges from "@/components/ResearchVersionChanges.astro";
+import type { ResearchMeta } from "@/types/research";
+import { changesPath, formatResearchDate } from "@/utils/research/articles";
+import { getArticle, getResearchArticles } from "@/utils/researchCollections";
+
+type Props = {
+  meta: ResearchMeta;
+};
+
+export async function getStaticPaths() {
+  const metas = await getResearchArticles();
+  return metas.map((meta) => ({ params: { slug: meta.slug }, props: { meta } }));
+}
+
+const article = await getArticle(Astro.props.meta.slug);
+if (!article) throw new Error(`Research ${Astro.props.meta.slug} not found`);
+const { meta, versions, current } = article;
+const latest = meta.versions.at(-1);
+if (!latest) throw new Error(`Research ${meta.slug} has no versions`);
+const n = latest.n;
+const minorDates = meta.minorEdits.map(formatResearchDate).join(", ");
+---
+
+<ResearchChanges {meta} hasCurrent={current !== null} pageTitle="What changed">
+  {
+    n === 1 ? (
+      <ResearchVersionChanges
+        heading="Version 1"
+        note={`First published ${formatResearchDate(latest.date)}.`}
+      />
+    ) : (
+      <ResearchVersionChanges
+        heading={`Version ${n} · ${formatResearchDate(latest.date)}`}
+        summary={latest.summary}
+        diff={{
+          label: `Changes from version ${n - 1}`,
+          oldBody: versions[n - 2].body ?? "",
+          newBody: versions[n - 1].body ?? "",
+        }}
+      />
+    )
+  }
+
+  {
+    current && (
+      <ResearchVersionChanges
+        heading={`Minor edits since version ${n}`}
+        note={minorDates ? `Small fixes made on ${minorDates}.` : undefined}
+      >
+        <p class="mt-2">
+          <a
+            href={changesPath(meta.slug, "current")}
+            class="underline decoration-dashed underline-offset-4 hover:text-accent"
+            >See the minor edits</a
+          >
+        </p>
+      </ResearchVersionChanges>
+    )
+  }
+
+  <section class="mt-8">
+    <h2 class="font-heading text-lg font-bold sm:text-xl">All versions</h2>
+    <ul class="mt-2 list-disc ps-5">
+      {
+        [...meta.versions].reverse().map((version) => (
+          <li class="my-1">
+            <a
+              href={changesPath(meta.slug, version.n)}
+              class="underline decoration-dashed underline-offset-4 hover:text-accent"
+            >
+              Version {version.n}
+            </a>
+            <span class="opacity-80"> · {formatResearchDate(version.date)}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</ResearchChanges>

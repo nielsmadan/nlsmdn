@@ -1,0 +1,28 @@
+---
+import type { CollapsedBlocks, DiffBlock } from "@/utils/research/diff";
+import ResearchDiffBlock from "./ResearchDiffBlock.astro";
+
+type Props = {
+  blocks: (DiffBlock | CollapsedBlocks)[];
+};
+
+const { blocks } = Astro.props;
+
+const sectionCount = (count: number) =>
+  `${count} unchanged ${count === 1 ? "section" : "sections"}`;
+---
+
+<div class="research-diff">
+  {
+    blocks.map((block) =>
+      block.kind === "collapsed" ? (
+        <details class="research-diff-collapsed">
+          <summary>{sectionCount(block.count)}</summary>
+          {block.blocks.map((inner) => <ResearchDiffBlock block={inner} />)}
+        </details>
+      ) : (
+        <ResearchDiffBlock {block} />
+      ),
+    )
+  }
+</div>

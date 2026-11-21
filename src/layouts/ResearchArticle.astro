@@ -1,0 +1,81 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import ShareLinks from "@/components/ShareLinks.astro";
+import BackToTopButton from "@/components/BackToTopButton.astro";
+import ProseEnhancements from "@/components/ProseEnhancements.astro";
+import ResearchVersionLine from "@/components/ResearchVersionLine.astro";
+import ResearchSignup from "@/components/ResearchSignup.astro";
+import LinkButton from "@/components/LinkButton.astro";
+import IconRss from "@/assets/icons/IconRss.svg";
+import type { ResearchMeta } from "@/types/research";
+import { articlePath } from "@/utils/research/articles";
+import { SITE } from "@/config";
+
+type Props = {
+  meta: ResearchMeta;
+  hasCurrent: boolean;
+};
+
+const { meta, hasCurrent } = Astro.props;
+
+const ogImage = SITE.dynamicOgImage
+  ? new URL(`${articlePath(meta.slug)}index.png`, Astro.url.origin).href
+  : undefined;
+---
+
+<Layout
+  title={`${meta.title} | ${SITE.title}`}
+  description={meta.description}
+  pubDatetime={new Date(meta.published)}
+  modDatetime={new Date(meta.updated)}
+  {ogImage}
+  scrollSmooth={true}
+  extraFeeds={[{ title: `${meta.title} versions`, href: `${articlePath(meta.slug)}rss.xml` }]}
+>
+  <Header />
+  <main id="main-content" class="app-layout mt-8 pb-4" data-pagefind-body>
+    <h1
+      class="inline-block font-heading text-xl font-bold text-accent sm:text-[1.75rem]"
+    >
+      {meta.title}
+    </h1>
+    <ResearchVersionLine
+      {meta}
+      {hasCurrent}
+      showFirstPublished={true}
+      class="mt-1"
+    />
+    <article
+      id="article"
+      class="app-prose mt-8 w-full max-w-app prose-sm sm:prose-base prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg) overflow-x-auto"
+    >
+      <slot />
+    </article>
+
+    <hr class="my-4 border-dashed" />
+
+    <div class="flex items-center justify-between" data-pagefind-ignore>
+      <ShareLinks />
+      <LinkButton
+        href={`${articlePath(meta.slug)}rss.xml`}
+        class="flex items-center gap-1 p-2 text-sm opacity-80 hover:opacity-100 sm:p-1"
+        title="RSS feed for this note"
+      >
+        <IconRss class="size-4" />
+        <span>RSS</span>
+      </LinkButton>
+    </div>
+
+    <BackToTopButton />
+
+    <div class="mt-8" data-pagefind-ignore>
+      <hr class="mb-6 border-dashed" />
+      <ResearchSignup scope={meta.slug} />
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<ProseEnhancements />

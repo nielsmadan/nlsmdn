@@ -1,0 +1,18 @@
+{
+  "slug": "coding-benchmarks",
+  "title": "Coding benchmarks for models and agents",
+  "description": "Model launch posts and leaderboards rank coding ability with a rotating set of benchmarks. To read those numbers you need to know which benchmarks currently count, what each one actually runs, and how far the published scores can be trusted. This note covers three questions.",
+  "published": "2026-11-21",
+  "updated": "2026-11-21",
+  "lastVerified": "2026-11-21",
+  "cursor": "7c95844dc1beb2e494ba8cbfd0669b6d272bf661",
+  "minorEdits": [],
+  "versions": [
+    {
+      "n": 1,
+      "date": "2026-11-21",
+      "summary": "First published.",
+      "pr": null
+    }
+  ]
+}

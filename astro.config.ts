@@ -65,6 +65,17 @@ export default defineConfig({
       RESEND_API_KEY: envField.string({
         access: "secret",
         context: "server",
+        optional: true,
+      }),
+      RESEARCH_TOKEN_SECRET: envField.string({
+        access: "secret",
+        context: "server",
+        optional: true,
+      }),
+      TURNSTILE_SECRET_KEY: envField.string({
+        access: "secret",
+        context: "server",
+        optional: true,
       }),
     },
   },

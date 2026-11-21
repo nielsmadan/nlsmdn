@@ -1,0 +1,32 @@
+{
+  "slug": "_sample",
+  "title": "Sample research note",
+  "description": "This is a fictional note used to preview the research section in development. It compares three made-up ways to keep a sourdough starter alive while travelling, and how well each one holds up after a week away.",
+  "published": "2026-08-04",
+  "updated": "2026-11-02",
+  "lastVerified": "2026-11-16",
+  "cursor": "3f9a1c0d7e2b4a6f8c1d3e5f7a9b0c2d4e6f8a1b",
+  "minorEdits": [
+    "2026-11-02"
+  ],
+  "versions": [
+    {
+      "n": 1,
+      "date": "2026-08-04",
+      "summary": "First published.",
+      "pr": null
+    },
+    {
+      "n": 2,
+      "date": "2026-09-15",
+      "summary": "## Findings revised\n- Dried starters recover in 2 to 3 feedings, not 3 to 4. The 2026 survey update measured this across 120 dried samples ([survey](https://example.org/survey-2025)).\n\n## New since last edit\n- 2026-09-02: the Example Baking Lab moved its drying guide to a new page ([guide](https://example.com/baking-lab/drying-v2)).\n\n## What changed\n- Freezing: \"least predictable\" -> \"least predictable, about one in five fail to revive\", with a new row in the methods table.\n\n## Re-verified, unchanged\n- Refrigeration recovery times and the spoilage signs.\n\n## Not verified\n- none",
+      "pr": 101
+    },
+    {
+      "n": 3,
+      "date": "2026-10-20",
+      "summary": "## Findings revised\n- none\n\n## New since last edit\n- 2026-10-12: a revival procedure from the updated drying guide, now its own section ([guide](https://example.com/baking-lab/drying-v2)).\n\n## What changed\n- Removed the claim that an acetone smell fades after one feeding. No current source supports it.\n\n## Re-verified, unchanged\n- The main finding, the methods table and the spoilage signs.\n\n## Not verified\n- Freezing failure rates for rye starters. The survey only covers wheat.",
+      "pr": 117
+    }
+  ]
+}

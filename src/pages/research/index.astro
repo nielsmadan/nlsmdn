@@ -1,0 +1,60 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Main from "@/layouts/Main.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import ResearchCard from "@/components/ResearchCard.astro";
+import ResearchSignup from "@/components/ResearchSignup.astro";
+import { getArticle, getResearchArticles } from "@/utils/researchCollections";
+import { RESEARCH } from "@/research.config";
+import { SITE } from "@/config";
+
+const metas = await getResearchArticles();
+const articles = await Promise.all(
+  metas.map(async (meta) => ({
+    meta,
+    hasCurrent: (await getArticle(meta.slug))?.current != null,
+  })),
+);
+
+const description = "Research notes I keep current.";
+---
+
+<Layout
+  title={`${RESEARCH.title} | ${SITE.title}`}
+  {description}
+  extraFeeds={[{ title: `${RESEARCH.title} | ${SITE.title}`, href: "research/rss.xml" }]}
+>
+  <Header />
+  <Main pageTitle={RESEARCH.title} pageDesc={description}>
+    <div class="space-y-3">
+      <p>
+        These are research notes that I keep up to date. Each one starts from a
+        few concrete questions and collects what the sources currently say.
+      </p>
+      <p>
+        I re-check every note on a schedule. When the evidence has changed, I
+        revise it and publish a new version with a short summary of what
+        changed. Each version comes with a diff against the one before, so you
+        can see exactly which words were added and removed. Small fixes between versions are marked
+        as minor edits.
+      </p>
+      <p>
+        You can subscribe to get an email when a note gets a new version, for a
+        single note or for all of them. There is also an
+        <a
+          href={`${RESEARCH.path}/rss.xml`}
+          class="underline decoration-dashed underline-offset-4 hover:text-accent"
+          >RSS feed</a
+        > with every new version.
+      </p>
+    </div>
+    <div class="mt-6">
+      <ResearchSignup scope="all" />
+    </div>
+    <ul class="mt-6">
+      {articles.map(({ meta, hasCurrent }) => <ResearchCard {meta} {hasCurrent} />)}
+    </ul>
+  </Main>
+  <Footer />
+</Layout>

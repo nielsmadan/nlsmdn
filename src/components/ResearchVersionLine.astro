@@ -1,0 +1,34 @@
+---
+import type { ResearchMeta } from "@/types/research";
+import { versionLine } from "@/utils/research/articles";
+
+type Props = {
+  meta: ResearchMeta;
+  hasCurrent: boolean;
+  showFirstPublished?: boolean;
+  class?: string;
+};
+
+const { meta, hasCurrent, showFirstPublished, class: className = "" } =
+  Astro.props;
+
+const parts = versionLine(meta, { hasCurrent, showFirstPublished });
+---
+
+<p class:list={["text-sm opacity-80", className]}>
+  {
+    parts.map((part, i) => (
+      <>
+        {i > 0 && <span aria-hidden="true"> · </span>}
+        {part.href ? (
+          <a
+            href={part.href}
+            class="underline decoration-dashed underline-offset-4 hover:text-accent"
+          >{part.text}</a>
+        ) : (
+          <span>{part.text}</span>
+        )}
+      </>
+    ))
+  }
+</p>

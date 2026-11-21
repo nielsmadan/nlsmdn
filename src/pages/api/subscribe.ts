@@ -16,6 +16,10 @@ const isValidEmail = (s: string) =>
   s.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
 
 export const POST: APIRoute = async ({ request }) => {
+  if (!RESEND_API_KEY) {
+    return json(503, { error: "Sign-up is not configured yet." });
+  }
+
   const formData = await request.formData();
   const email = formData.get("email");
 
