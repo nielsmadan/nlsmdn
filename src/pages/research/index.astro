@@ -29,24 +29,26 @@ const description = "Research notes I keep current.";
   <Main pageTitle={RESEARCH.title} pageDesc={description}>
     <div class="space-y-3">
       <p>
-        These are research notes that I keep up to date. Each one starts from a
-        few concrete questions and collects what the sources currently say.
+        There are some topics where the state of the art changes frequently and
+        I would like to get an update every few months. I set an agent to
+        research a base version, then have an AI assistant that kicks off every
+        one to three months, depending on topic, and looks up what's new. It
+        opens a PR with a summary of the changes, and I can check the diff.
       </p>
       <p>
-        I re-check every note on a schedule. When the evidence has changed, I
-        revise it and publish a new version with a short summary of what
-        changed. Each version comes with a diff against the one before, so you
-        can see exactly which words were added and removed. Small fixes between versions are marked
-        as minor edits.
+        I figured I might as well publish them. If you are interested in any of
+        these topics, you can look them up here. You can also subscribe, to
+        everything or to individual topics, and get an email when there is an
+        update. That way we don't all have to burn tokens to find out the same
+        things.
       </p>
       <p>
-        You can subscribe to get an email when a note gets a new version, for a
-        single note or for all of them. There is also an
+        There is also an
         <a
           href={`${RESEARCH.path}/rss.xml`}
           class="underline decoration-dashed underline-offset-4 hover:text-accent"
           >RSS feed</a
-        > with every new version.
+        > with every new version if that floats your boat.
       </p>
     </div>
     <div class="mt-6">
