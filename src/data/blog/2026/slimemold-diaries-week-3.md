@@ -1,11 +1,12 @@
 ---
-title: "Slimemold Diaries Week 3: Agent-to-Agent Communication Kickoff"
+title: "Agent-to-Agent Communication Kickoff"
 pubDatetime: 2026-11-22T23:00:00+01:00
 description: "I spent my leftover Claude usage on getting agents to talk to each other. Two overnight prototypes, a failed run, a new box for local models, and a lot of Tailscale."
 tags:
   - ai
   - slimemold
 series: slimemold-diaries
+seriesPart: 3
 ---
 
 My Claude subscription resets on Saturday morning. Last Friday evening I still had 15% usage left. I thought about what to do with it, eventually decided to kickstart the comms tooling for Slimemold.

@@ -11,6 +11,7 @@ import BackToTopButton from "@/components/BackToTopButton.astro";
 import ProseEnhancements from "@/components/ProseEnhancements.astro";
 import NewsletterForm from "@/components/NewsletterForm";
 import { getPath } from "@/utils/getPath";
+import { getFullTitle, getSeriesLabel } from "@/utils/seriesLabel";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
 import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
@@ -36,6 +37,9 @@ const {
   series,
 } = post.data;
 
+const fullTitle = getFullTitle(post.data);
+const seriesLabel = getSeriesLabel(post.data);
+
 const { Content } = await render(post);
 
 let ogImageUrl: string | undefined;
@@ -58,7 +62,7 @@ const ogImage = ogImageUrl
   : undefined;
 
 const layoutProps = {
-  title: `${title} | ${SITE.title}`,
+  title: `${fullTitle} | ${SITE.title}`,
   author,
   description,
   pubDatetime,
@@ -70,9 +74,9 @@ const layoutProps = {
 
 /* ========== Prev/Next Posts ========== */
 
-const allPosts = posts.map(({ data: { title }, id, filePath }) => ({
+const allPosts = posts.map(({ data, id, filePath }) => ({
   id,
-  title,
+  title: getFullTitle(data),
   filePath,
 }));
 
@@ -93,9 +97,17 @@ const nextPost =
     <h1
       transition:name={slugifyStr(title.replaceAll(".", "-"))}
       class="inline-block font-heading text-xl font-bold text-accent sm:text-[1.75rem]"
+      data-pagefind-meta={`title:${fullTitle}`}
     >
       {title}
     </h1>
+    {
+      seriesLabel && (
+        <p class="mt-1.5 w-fit rounded border border-border bg-muted/40 px-2 py-0.5 font-heading text-xs uppercase tracking-wider text-foreground/80">
+          {seriesLabel}
+        </p>
+      )
+    }
     <Datetime {pubDatetime} {modDatetime} {timezone} showIcon={false} size="xs" class="mt-1" />
     {series && <SeriesHeader {series} />}
     <article

@@ -1,5 +1,6 @@
 import satori from "satori";
 import { SITE } from "@/config";
+import { getSeriesLabel } from "@/utils/seriesLabel";
 import loadGoogleFonts from "../loadGoogleFont";
 
 export default async (post) => {
@@ -8,6 +9,8 @@ export default async (post) => {
     month: "long",
     day: "numeric",
   });
+
+  const seriesLabel = getSeriesLabel(post.data);
 
   return satori(
     {
@@ -34,6 +37,24 @@ export default async (post) => {
                 gap: "16px",
               },
               children: [
+                ...(seriesLabel
+                  ? [
+                      {
+                        type: "p",
+                        props: {
+                          style: {
+                            margin: "0",
+                            fontSize: 26,
+                            fontFamily: "Space Mono",
+                            color: "#ccc5b9",
+                            textTransform: "uppercase",
+                            letterSpacing: "2px",
+                          },
+                          children: seriesLabel,
+                        },
+                      },
+                    ]
+                  : []),
                 {
                   type: "p",
                   props: {
@@ -134,7 +155,7 @@ export default async (post) => {
       height: 630,
       embedFont: true,
       fonts: await loadGoogleFonts(
-        `${post.data.title}${post.data.description}${post.data.author}${SITE.title}${date}by`,
+        `${post.data.title}${post.data.description}${post.data.author}${SITE.title}${date}by${seriesLabel?.toUpperCase() ?? ""}`,
       ),
     },
   );

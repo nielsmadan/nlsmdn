@@ -30,7 +30,7 @@ bun run sync             # regenerate Astro types
 
 - `src/config.ts` — site-wide settings (SITE constant): author, title, URL, feature flags
 - `src/constants.ts` — social links and share link definitions
-- `src/series.ts` — series definitions (title, blurb for the series page, header shown on each post); a post joins one with `series:` in its frontmatter
+- `src/series.ts` — series definitions (title, blurb for the series page, header shown on each post, optional `numbered` label template); a post joins one with `series:` in its frontmatter
 - `src/content.config.ts` — blog collection schema (Astro content collections with glob loader)
 - `docs/research-section.md` — Research section: data flow, rules, subscription model, one-time setup and smoke test
 
@@ -44,6 +44,7 @@ pubDatetime: date      # required
 description: string    # required
 tags: string[]         # defaults to ["others"]
 series: string         # optional, a key of SERIES in src/series.ts
+seriesPart: number     # required for numbered series (label template in src/series.ts), shown under the title
 draft: boolean         # optional, hides from production
 featured: boolean      # optional
 modDatetime: date      # optional

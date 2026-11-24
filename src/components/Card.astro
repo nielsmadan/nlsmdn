@@ -2,6 +2,8 @@
 import type { CollectionEntry } from "astro:content";
 import { slugifyStr } from "@/utils/slugify";
 import { getPath } from "@/utils/getPath";
+import { SERIES } from "@/series";
+import { getSeriesLabel } from "@/utils/seriesLabel";
 import Datetime from "./Datetime.astro";
 
 type Props = {
@@ -11,9 +13,22 @@ type Props = {
 const { variant: Heading = "h2", id, data, filePath } = Astro.props;
 
 const { title, description, ...props } = data;
+const seriesLabel = getSeriesLabel(data);
+const seriesTitle = data.series && SERIES[data.series].title;
 ---
 
 <li class="my-4">
+  {
+    seriesLabel && (
+      <a
+        href={`/series/${data.series}/`}
+        aria-label={`All posts in ${seriesTitle}`}
+        class="mb-0.5 block w-fit font-heading text-xs uppercase tracking-widest text-foreground/60 decoration-dashed underline-offset-4 hover:text-accent hover:underline"
+      >
+        {seriesLabel}
+      </a>
+    )
+  }
   <a
     href={getPath(id, filePath)}
     class:list={[

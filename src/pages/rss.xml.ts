@@ -3,6 +3,7 @@ import rss from "@astrojs/rss";
 import { SITE } from "@/config";
 import { getPath } from "@/utils/getPath";
 import getSortedPosts from "@/utils/getSortedPosts";
+import { getFullTitle } from "@/utils/seriesLabel";
 
 export async function GET() {
   const posts = await getCollection("blog");
@@ -13,7 +14,7 @@ export async function GET() {
     site: SITE.website,
     items: sortedPosts.map(({ data, id, filePath }) => ({
       link: getPath(id, filePath),
-      title: data.title,
+      title: getFullTitle(data),
       description: data.description,
       pubDate: new Date(data.modDatetime ?? data.pubDatetime),
     })),

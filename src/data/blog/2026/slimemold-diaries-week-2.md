@@ -1,11 +1,12 @@
 ---
-title: "Slimemold Diaries Week 2: Software Factory Must Haves & Git Shenanigans"
+title: "Software Factory Must Haves & Git Shenanigans"
 pubDatetime: 2026-11-13T00:00:00+00:00
 description: "What OpenClaw and Gas City taught me about agent systems, the one job that keeps my own assistant alive, and how the factory agents will ask for tools and open PRs."
 tags:
   - ai
   - slimemold
 series: slimemold-diaries
+seriesPart: 2
 ---
 
 I set up some software factory-ish things in the past and learned a few lessons.

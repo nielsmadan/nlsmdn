@@ -1,11 +1,12 @@
 ---
-title: "Slimemold Diaries Week 1: Building a Software Factory"
+title: "Building a Software Factory"
 pubDatetime: 2026-11-06T00:00:00+00:00
 description: "I bought a Mac Studio and I'm handing it over to a fleet of coding agents. First entry in a weekly diary of what they build and what breaks."
 tags:
   - ai
   - slimemold
 series: slimemold-diaries
+seriesPart: 1
 ---
 
 I have an M1 Max MacBook Pro with 64 GB RAM, but it's not enough anymore. All those agents, and Docker, and test runs, and compiles. I got it when it came out, five years ago. It served me well for a long time. I never reached its limits before. But nothing lasts forever. Time to upgrade.

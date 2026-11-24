@@ -7,6 +7,7 @@ tags:
   - ai
   - skill showcase
 series: skill-showcase
+seriesPart: 2
 ---
 
 Has this ever happened to you?
